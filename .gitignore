@@ -1,3 +1,5 @@
 *.mti
 *.mpf
 Work/
+*.wlf
+*.mpf_new
