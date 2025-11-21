@@ -75,8 +75,8 @@ module alu
           5'b10_011: Result = A >>> 1;              // SAR
           5'b10_100: Result = {A[14:0], A[15]};     // ROL
           5'b10_101: Result = {A[0], A[15:1]};      // ROR
-          5'b10_110: Result = {A[14:0], CF_sh};     // RCL
-          5'b10_111: Result = {CF_sh, A[15:1]};     // RCR
+          5'b10_110: Result = {A[14:0], Cin};     // RCL
+          5'b10_111: Result = {Cin, A[15:1]};     // RCR
 
         // Default
           default: begin 
