@@ -46,7 +46,7 @@ module alu
             VF = A[15] && !Result[15];        // VF
           end
           5'b00_100: begin  // ADD
-            {CF_ar, Result} = A + B + Cin;    // CF_ar, Result
+            {CF_ar, Result} = A + B;          // CF_ar, Result
             VF = (A[15] == B[15] && A[15] != Result[15]); // VF
           end
           5'b00_101: begin  // ADD_CARRY
@@ -54,7 +54,7 @@ module alu
             VF = (A[15] == B[15] && A[15] != Result[15]); // VF
           end
           5'b00_110: begin  // SUB
-            {CF_ar, Result} = A - B - Cin;    // CF_ar, Result
+            {CF_ar, Result} = A - B;         // CF_ar, Result
             VF = (A[15] != B[15] && Result[15] != A[15]);
           end
           5'b00_111: begin  // SUB_BORROW
