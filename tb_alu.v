@@ -209,12 +209,12 @@ module tb_alu;
       // 15th Scenario (SAR Operation)
         $display("\n========================================= 15th Scenario (SAR Operation) =========================================");
         a = 16'h0000;   b = 16'h0000;   f = 5'b10_011; cin = $random;
-        log(a, b, f, cin, (a >>> 1));
+        log(a, b, f, cin, {a[15], a[15:1]});
         a = 16'hFFFF;   b = 16'hFFFF;   f = 5'b10_011; cin = $random;
-        log(a, b, f, cin, (a >>> 1));
+        log(a, b, f, cin, {a[15], a[15:1]});
         repeat(5) begin 
           a = $random;  b = $random;  f = 5'b10_011;  cin = $random;
-          log(a, b, f, cin, (a >>> 1));
+          log(a, b, f, cin, {a[15], a[15:1]});
         end
 
       // 16th Scenario (ROL Operation)

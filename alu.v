@@ -11,7 +11,7 @@ module alu
     input wire [4:0]    F,        // OpCode
     input wire          Cin,      // Carry Input
   // Outputs
-    output reg [15:0]  Result,    // ALU Result
+    output reg [15:0]   Result,   // ALU Result
     output wire [5:0]   Status    // FLAGS Reg {CF, ZF, NF, VF, PF, AF}
 );
   // Internal Signals
@@ -72,11 +72,11 @@ module alu
           5'b10_000: Result = A << 1;               // SHL
           5'b10_001: Result = A >> 1;               // SHR
           5'b10_010: Result = A <<< 1;              // SAL
-          5'b10_011: Result = A >>> 1;              // SAR
+          5'b10_011: Result = {A[15], A[15:1]};     // SAR
           5'b10_100: Result = {A[14:0], A[15]};     // ROL
           5'b10_101: Result = {A[0], A[15:1]};      // ROR
-          5'b10_110: Result = {A[14:0], Cin};     // RCL
-          5'b10_111: Result = {Cin, A[15:1]};     // RCR
+          5'b10_110: Result = {A[14:0], Cin};       // RCL
+          5'b10_111: Result = {Cin, A[15:1]};       // RCR
 
         // Default
           default: begin 
