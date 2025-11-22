@@ -3,3 +3,6 @@
 Work/
 *.wlf
 *.mpf_new
+ALU_tst.v
+TB_ALU_tst.v
+alu_tst.do
