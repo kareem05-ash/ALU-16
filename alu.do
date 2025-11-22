@@ -1,3 +1,4 @@
+transcript file transcript.log
 vlib work
 vlog ALU.v TB_ALU.v
 vsim -voptargs=+acc work.tb_alu
