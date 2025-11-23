@@ -33,8 +33,12 @@ module alu
     assign PF = ~^Result;
     assign AF = F[1]? (A[3:0] < B[3:0]) : (A[3:0] + B[3:0] > 4'hF);
 
-  // Comb. Block for Results, CF_ar, VF
+  // Comb. Block for Result, CF_ar, VF
     always@(*) begin 
+      // Initial Values for Result, CF_ar, VF
+        Result = 16'h0000;
+        CF_ar = 1'b0;
+        VF = 1'b0;
       case(F)
         // Arithmetic Block
           5'b00_001: begin  // INC
