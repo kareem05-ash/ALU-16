@@ -8,3 +8,4 @@ TB_ALU_tst.v
 alu_tst.do
 transcript.log
 tempCodeRunnerFile.py
+*.doc
