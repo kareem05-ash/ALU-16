@@ -22,7 +22,7 @@ module alu
     wire PF;                      // Parity Flag
     wire AF;                      // Auxiliary Flag
     wire CF_sh;                   // Shift Carry Flag
-    reg CF_ar;                    // Artithmetic Carry Flag
+    reg CF_ar;                    // Arithmetic Carry Flag
 
   // FLAGS Register Assignment
     assign Status = {CF, ZF, NF, VF, PF, AF};
