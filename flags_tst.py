@@ -219,20 +219,51 @@ def read_logs():
     for _ in range(7):
       RCR.append(file.readline())
 
-def line(l:str):
-  '''This function yields A(hex), B(hex), Cin(bin), OpCode(bin), Status(hex), Result(hex)'''
-  main = l.split('|')
-  # A, B, Cin, OpCode
-  inputs = main[1].strip().split(',')
-  A = inputs[0].split('=')[1].strip()
-  B = inputs[1].split('=')[1].strip()
-  Cin = inputs[2].split('=')[1].strip()
-  OpCode = inputs[3].split('=')[1].strip()
-  # Status
-  Status = main[2].strip().split('=')[1].strip()
-  # Result
-  Result = main[3].strip().split('=')[1].strip().split(',')[0].strip()
-  # Returning all values
+# def line(l:str):
+#   '''This function yields A(hex), B(hex), Cin(bin), OpCode(bin), Status(hex), Result(hex)'''
+#   main = l.split('|')
+#   # A, B, Cin, OpCode
+#   inputs = main[1].strip().split(',')
+#   A = inputs[0].split('=')[1].strip()
+#   B = inputs[1].split('=')[1].strip()
+#   Cin = inputs[2].split('=')[1].strip()
+#   OpCode = inputs[3].split('=')[1].strip()
+#   # Status
+#   Status = main[2].strip().split('=')[1].strip()
+#   # Result
+#   Result = main[3].strip().split('=')[1].strip().split(',')[0].strip()
+#   # Returning all values
+#   return A, B, Cin, OpCode, Status, Result
+
+def line(l: str):
+  '''This function yields A(hex), B(hex), Cin(str), OpCode(str), Status(hex), Result(hex)'''
+  
+  # 1. تقسيم السطر حسب الـ Pipe |
+  # بناخد الأجزاء اللي بعد الـ [PASS]
+  parts = [p.strip() for p in l.split('|') if p.strip()][1:]
+  
+  # 2. استخراج Inputs (A, B, Cin, OpCode)
+  inputs_str = parts[0]
+  input_data = {}
+  for item in inputs_str.split(','):
+    key, value = item.split('=')
+    input_data[key.strip()] = value.strip()
+    
+  A = input_data['A']
+  B = input_data['B']
+  Cin = input_data['Cin']
+  OpCode = input_data['OpCode']
+  
+  # 3. استخراج Status
+  # Status: Status = 000000
+  Status = parts[1].split('=')[1].strip()
+  
+  # 4. استخراج Result
+  # Result: Result = 5706, expected = 5706
+  result_part = parts[2].split('=')[1].strip()
+  Result = result_part.split(',')[0].strip()
+  
+  # 5. إرجاع القيم
   return A, B, Cin, OpCode, Status, Result
 
 PASSed, FAILed = 0, 0
