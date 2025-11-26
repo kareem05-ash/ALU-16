@@ -24,7 +24,9 @@ def alu_golden_model(A, B, Cin, F) -> tuple:
   Result, CF, ZF, NF, VF, PF, AF = 0, 0, 0, 0, 0, 0, 0
   opcode = F & 0b11_111
   A, B, Cin, F = A & MASK, B & MASK, Cin & 1, F & 0b11_111
+
   # Case Statement
+  
   # ----------------
   # Arithmetic Block
   # ----------------
