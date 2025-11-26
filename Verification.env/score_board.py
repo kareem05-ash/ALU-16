@@ -26,9 +26,15 @@ def comp(A, B, Cin, F, Status, exp_Status, Result, exp_Result):
   All += 1
   if Status == exp_Status and Result == exp_Result:
     PASSed += 1
-    # print(f"[PASS] | A = {hex(A)}, B = {hex(B)}, Cin = {Cin}, OpCode = {hex(F)} | Status = {hex(Status)}, Expected = {hex(exp_Status)} | Result = {hex(Result)}, Expected = {hex(exp_Result)}")
+    # print(f"[PASS] | A = {hex(A)}, B = {hex(B)}", end=', ')
+    # print(f"Cin = {bin(Cin)}, OpCode = {bin(F)}", end=', ')
+    # print(f"Status = {bin(Status)}, Expected = {bin(exp_Status)}", end=' | ')
+    # print(f"Result = {hex(Result)}, Expected = {hex(exp_Result)}")
   else:
-    print(f"[FAIL] | A = {hex(A)}, B = {hex(B)}, Cin = {Cin}, OpCode = {bin(F)} | Status = {bin(Status)}, Expected = {bin(exp_Status)} | Result = {hex(Result)}, Expected = {hex(exp_Result)}")
+    print(f"[FAIL] | A = {hex(A)}, B = {hex(B)}", end=', ')
+    print(f"Cin = {bin(Cin)}, OpCode = {bin(F)}", end=', ')
+    print(f"Status = {bin(Status)}, Expected = {bin(exp_Status)}", end=' | ')
+    print(f"Result = {hex(Result)}, Expected = {hex(exp_Result)}")
     
 # Calculate
 
