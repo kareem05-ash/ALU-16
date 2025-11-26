@@ -3,7 +3,7 @@
 from golden_model import alu_golden_model as gm
 
 # read logs
-with open(".\\logs.log", 'r') as f:
+with open("F:\\GitHub\\ALU-16\\logs.log", 'r') as f:
   lines = f.readlines()
 
 # storing logs in lists
