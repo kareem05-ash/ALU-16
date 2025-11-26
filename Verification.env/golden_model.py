@@ -25,89 +25,133 @@ def alu_golden_model(A, B, Cin, F) -> tuple:
   opcode = F & 0b11_111
   A, B, Cin, F = A & MASK, B & MASK, Cin & 1, F & 0b11_111
   # Case Statement
-  if opcode == 0b00_001:      # INC
+  # ----------------
+  # Arithmetic Block
+  # ----------------
+  # INC Operation
+  if opcode == 0b00_001:      
     Result = (A + 1) & MASK
     CF = 1 if A == MASK else 0
     AF = 1 if (A & 0xF) == 0xF else 0
     A_msb, Result_msb = (A >> WIDTH - 1) & 1, (Result >> WIDTH - 1) & 1
     VF = 1 if A_msb == 0 and Result_msb == 1 else 0
-  elif opcode == 0b00_011:    # DEC
+
+  # DEC Operation
+  elif opcode == 0b00_011:    
     Result = (A - 1) & MASK
     CF = 1 if A == 0x0000 else 0
     AF = 1 if (A & 0xF) == 0x0 else 0
     A_msb, Result_msb = (A >> WIDTH - 1) & 1, (Result >> WIDTH - 1) & 1
     VF = 1 if A_msb == 1 and Result_msb == 0 else 0
-  elif opcode == 0b00_100:    # ADD
+
+  # ADD Operation
+  elif opcode == 0b00_100:    
     Result = (A + B) & MASK
     CF = 1 if (A + B) > MASK else 0
     AF = 1 if ((A & 0xF) + (B & 0xF)) > 0xF else 0
     A_msb, B_msb, Result_msb = (A >> WIDTH - 1) & 1, (B >> WIDTH - 1) & 1, (Result >> WIDTH - 1) & 1
     VF = 1 if A_msb == B_msb and Result_msb != A_msb else 0
-  elif opcode == 0b00_101:    # ADC
+
+  # ADC Operation
+  elif opcode == 0b00_101:    
     Result = (A + B + Cin) & MASK
     CF = 1 if (A + B + Cin) > MASK else 0
     AF = 1 if ((A & 0xF) + (B & 0xF) + Cin) > 0xF else 0
     A_msb, B_msb, Result_msb = (A >> WIDTH - 1) & 1, (B >> WIDTH - 1) & 1, (Result >> WIDTH - 1) & 1
     VF = 1 if A_msb == B_msb and Result_msb != A_msb else 0
-  elif opcode == 0b00_110:    # SUB
+
+  # SUB Operation
+  elif opcode == 0b00_110:    
     Result = (A - B) & MASK
     CF = 1 if A < B else 0
     AF = 1 if (A & 0xF) < (B & 0xF) else 0
     A_msb, B_msb, Result_msb = (A >> WIDTH - 1) & 1, (B >> WIDTH - 1) & 1, (Result >> WIDTH - 1) & 1
     VF = 1 if A_msb != B_msb and Result_msb != A_msb else 0
-  elif opcode == 0b00_111:    # SBB
+
+  # SBB Operation
+  elif opcode == 0b00_111:    
     Result = (A - B - Cin) & MASK
     CF = 1 if (A - Cin < B) else 0
     AF = 1 if (A & 0xF) - Cin < (B & 0xF) else 0
     A_msb, B_msb, Result_msb = (A >> WIDTH - 1) & 1, (B >> WIDTH - 1) & 1, (Result >> WIDTH - 1) & 1
     VF = 1 if A_msb != B_msb and Result_msb != A_msb else 0
-  
-  elif opcode == 0b01_000:    # AND
+
+  # ---------------
+  # Logic Block
+  # ---------------
+  # AND Operation
+  elif opcode == 0b01_000:    
     Result = A & B & MASK
     CF, AF, VF = 0, 0, 0
-  elif opcode == 0b01_001:    # OR
+
+  # OR Operation
+  elif opcode == 0b01_001:    
     Result = A | B | 0x0000
     CF, AF, VF = 0, 0, 0
-  elif opcode == 0b01_010:    # XOR
+
+  # XOR Operation
+  elif opcode == 0b01_010:    
     Result = A ^ B
     CF, AF, VF = 0, 0, 0
-  elif opcode == 0b01_011:    # NOT
+
+  # NOT Operation
+  elif opcode == 0b01_011:    
     Result = A ^ MASK
     CF, AF, VF = 0, 0, 0
   
-  elif opcode == 0b10_000:    # SHL
+  # ---------------
+  # Shift Block
+  # ---------------
+  # SHL Operation
+  elif opcode == 0b10_000:    
     Result = (A << 1) & MASK
     CF = (A >> WIDTH - 1) & 1
     AF, VF = 0, 0
-  elif opcode == 0b10_001:    # SHR
+
+  # SHR Operation
+  elif opcode == 0b10_001:    
     Result = (A >> 1) & MASK
     CF = A & 1
     AF, VF = 0, 0
-  elif opcode == 0b10_010:    # SAL
+
+  # SAL Operation
+  elif opcode == 0b10_010:    
     Result = (A << 1) & MASK
     CF = (A >> WIDTH - 1) & 1
     AF, VF = 0, 0
-  elif opcode == 0b10_011:    # SAR
+
+  # SAR Operation
+  elif opcode == 0b10_011:    
     sign_bit = (A >> WIDTH - 1) & 1
     Result = (A >> 1) | (sign_bit << WIDTH - 1) & MASK
     CF = A & 1
     AF, VF = 0, 0
-  elif opcode == 0b10_100:    # ROL
+
+  # ROL Operation
+  elif opcode == 0b10_100:    
     CF = (A >> WIDTH - 1) & 1
     Result = ((A << 1) & MASK) | (CF & MASK)
     AF, VF = 0, 0
-  elif opcode == 0b10_101:    # ROR
+
+  # ROR Operation
+  elif opcode == 0b10_101:    
     CF = A & 1
     Result = ((A >> 1) & MASK) | ((CF << WIDTH - 1) & MASK)
     AF, VF = 0, 0
-  elif opcode == 0b10_110:    # RCL
+
+  # RCL Operation
+  elif opcode == 0b10_110:    
     Result = ((A << 1) & MASK) | (Cin & MASK)
     CF = (A >> WIDTH - 1) & 1
     AF, VF = 0, 0
-  elif opcode == 0b10_111:    # RCR
+
+  # RCR Operation
+  elif opcode == 0b10_111:    
     Result = ((A >> 1) & MASK) | ((Cin << WIDTH - 1) & MASK)
     CF = A & 1
     AF, VF = 0, 0
+
+  # Default Case 
   else:
     Result = 0 & MASK
     CF, AF, VF = 0, 0, 0
