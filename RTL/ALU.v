@@ -68,8 +68,8 @@ module alu
             Result = A - B - Cin;                                 // Result
             CF = A - Cin < B;                                     // CF
             VF = (A[15] != B[15] && Result[15] != A[15]);         // VF
-            res = A[3:0] - Cin;
-            AF = res < B[3:0];                                    // AF
+            res = B[3:0] + Cin;
+            AF = A[3:0] < res;                                    // AF
           end
         // Logic Block
           5'b01_000: Result = A & B;                              // AND
