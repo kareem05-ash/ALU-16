@@ -74,7 +74,7 @@ def alu_golden_model(A, B, Cin, F) -> tuple:
   elif opcode == 0b00_111:    
     Result = (A - B - Cin) & MASK
     CF = 1 if (A - Cin < B) else 0
-    AF = 1 if (A & 0xF) - Cin < (B & 0xF) else 0
+    AF = 1 if (A & 0xF) < ((B & 0xF) + Cin) else 0
     A_msb, B_msb, Result_msb = (A >> WIDTH - 1) & 1, (B >> WIDTH - 1) & 1, (Result >> WIDTH - 1) & 1
     VF = 1 if A_msb != B_msb and Result_msb != A_msb else 0
 
