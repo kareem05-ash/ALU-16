@@ -13,3 +13,5 @@ tempCodeRunnerFile.py
 *.log
 flags_tst.py
 Verification.env\__pycache__\
+*.ini
+*.bak
