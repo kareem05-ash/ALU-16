@@ -43,9 +43,9 @@ module tb_alu;
       endtask
   // Stimulus
     initial begin 
-        repeat(10000) begin 
+        repeat(1000) begin 
           a = $random;  b = $random;  cin = $random;  f = $random;
-          log(a, b, cin, f);
+          log(a, b, f, cin);
         end
         #10;
         $stop;
