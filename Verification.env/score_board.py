@@ -3,7 +3,7 @@
 from golden_model import alu_golden_model as gm
 
 # read logs
-with open("F:\\GitHub\\ALU-16\\logs.log", 'r') as f:
+with open(".\\logs.log", 'r') as f:
   lines = f.readlines()
 
 # storing logs in lists
@@ -26,22 +26,29 @@ def comp(A, B, Cin, F, Status, exp_Status, Result, exp_Result):
   All += 1
   if Status == exp_Status and Result == exp_Result:
     PASSed += 1
-    # print(f"[PASS] | A = {hex(A)}, B = {hex(B)}", end=', ')
-    # print(f"Cin = {bin(Cin)}, OpCode = {bin(F)}", end=', ')
-    # print(f"Status = {bin(Status)}, Expected = {bin(exp_Status)}", end=' | ')
-    # print(f"Result = {hex(Result)}, Expected = {hex(exp_Result)}")
+    print(f"[PASS] | A = {'0x' + str(hex(A))[2:].zfill(4).upper()}, B = {'0x' + str(hex(B))[2:].zfill(4).upper()}", end=', ')
+    print(f"Cin = {Cin}, OpCode = {'0b\'' + str(bin(F))[2:].zfill(5)}", end=', ')
+    print(f"Status = {'0b\'' + str(bin(status))[2:].zfill(6)}, Expected = {'0b\'' + str(bin(exp_Status))[2:].zfill(6)}", end=' | ')
+    print(f"Result = {'0x' + str(hex(Result))[2:].zfill(4).upper()}, Expected = {'0x' + str(hex(exp_Result))[2:].zfill(4).upper()}")
   else:
-    print(f"[FAIL] | A = {hex(A)}, B = {hex(B)}", end=', ')
-    print(f"Cin = {bin(Cin)}, OpCode = {bin(F)}", end=', ')
-    print(f"Status = {bin(Status)}, Expected = {bin(exp_Status)}", end=' | ')
-    print(f"Result = {hex(Result)}, Expected = {hex(exp_Result)}")
+    print(f"[FAIL] | A = {'0x' + str(hex(A))[2:].zfill(4).upper()}, B = {'0x' + str(hex(B))[2:].zfill(4).upper()}", end=', ')
+    print(f"Cin = {Cin}, OpCode = {'0b\'' + str(bin(F))[2:].zfill(5)}", end=', ')
+    print(f"Status = {'0b\'' + str(bin(status))[2:].zfill(6)}, Expected = {'0b\'' + str(bin(exp_Status))[2:].zfill(6)}", end=' | ')
+    print(f"Result = {'0x' + str(hex(Result))[2:].zfill(4).upper()}, Expected = {'0x' + str(hex(exp_Result))[2:].zfill(4).upper()}")
     
 # Calculate
-
 for a, b, cin, f, status, res in zip(Alst, Blst, Cinlst, Flst, Statuslst, Resultlst):
   exp_res, CF, ZF, NF, VF, PF, AF = gm(a, b, cin, f)
   exp_status = int(str(CF)+ str(ZF)+ str(NF)+ str(VF)+ str(PF) + str(AF), 2)
   # compare
   comp(a, b, cin, f, status, exp_status, res, exp_res)
 
-print(f"\nAll Test Cases = {All}\nPASSed Test Cases = {PASSed}\nFAILed = {All - PASSed}")
+# Report
+print()
+print(f"{str(30 * '=').center(140)}")
+print(f"{('Report'.center(30)).center(140)}")
+print(f"{str(30 * '=').center(140)}")
+print(f"{' ' * 55}All Test Cases  -> {All}")
+print(f"{' ' * 55}PASSed          -> {PASSed}")
+print(f"{' ' * 55}FAILed          -> {All - PASSed}")
+print(f"{' ' * 55}Successful      -> {(PASSed/All) * 100}%\n")
