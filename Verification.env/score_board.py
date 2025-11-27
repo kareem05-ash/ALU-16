@@ -24,16 +24,16 @@ All, PASSed = 0, 0
 def comp(A, B, Cin, F, Status, exp_Status, Result, exp_Result):
   global All, PASSed
   All += 1
-  if Status == exp_Status and Result == exp_Result:
+  if (Status == exp_Status) and (Result == exp_Result):
     PASSed += 1
     print(f"[PASS] | A = {'0x' + str(hex(A))[2:].zfill(4).upper()}, B = {'0x' + str(hex(B))[2:].zfill(4).upper()}", end=', ')
     print(f"Cin = {Cin}, OpCode = {'0b\'' + str(bin(F))[2:].zfill(5)}", end=', ')
-    print(f"Status = {'0b\'' + str(bin(status))[2:].zfill(6)}, Expected = {'0b\'' + str(bin(exp_Status))[2:].zfill(6)}", end=' | ')
+    print(f"Status = {'0b\'' + str(bin(Status))[2:].zfill(6)}, Expected = {'0b\'' + str(bin(exp_Status))[2:].zfill(6)}", end=' | ')
     print(f"Result = {'0x' + str(hex(Result))[2:].zfill(4).upper()}, Expected = {'0x' + str(hex(exp_Result))[2:].zfill(4).upper()}")
   else:
     print(f"[FAIL] | A = {'0x' + str(hex(A))[2:].zfill(4).upper()}, B = {'0x' + str(hex(B))[2:].zfill(4).upper()}", end=', ')
     print(f"Cin = {Cin}, OpCode = {'0b\'' + str(bin(F))[2:].zfill(5)}", end=', ')
-    print(f"Status = {'0b\'' + str(bin(status))[2:].zfill(6)}, Expected = {'0b\'' + str(bin(exp_Status))[2:].zfill(6)}", end=' | ')
+    print(f"Status = {'0b\'' + str(bin(Status))[2:].zfill(6)}, Expected = {'0b\'' + str(bin(exp_Status))[2:].zfill(6)}", end=' | ')
     print(f"Result = {'0x' + str(hex(Result))[2:].zfill(4).upper()}, Expected = {'0x' + str(hex(exp_Result))[2:].zfill(4).upper()}")
     
 # Calculate
