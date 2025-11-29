@@ -16,14 +16,14 @@ with open('.\\logs.log', 'r+') as f:
 with open('.\\logs.log', 'w') as f:
   f.writelines(ls)
 
-# read logs
-with open(".\\logs.log", 'r') as f:
-  lines = f.readlines()
+# # read logs
+# with open(".\\logs.log", 'r') as f:
+#   lines = f.readlines()
 
 # storing logs in lists
 Alst, Blst, Cinlst, Flst, Statuslst, Resultlst = [], [], [], [], [], []
 
-for l in lines:
+for l in ls:
   lst = l.split('|')
   Alst.append(int(lst[0], 16))
   Blst.append(int(lst[1], 16))
@@ -41,12 +41,12 @@ def comp(A, B, Cin, F, Status, exp_Status, Result, exp_Result):
   if Status == exp_Status and Result == exp_Result:
     PASSed += 1
     print(f"[PASS] | A = {'0x' + str(hex(A))[2:].zfill(4).upper()}, B = {'0x' + str(hex(B))[2:].zfill(4).upper()}", end=', ')
-    print(f"Cin = {Cin}, OpCode = {'0b\'' + str(bin(F))[2:].zfill(5)}", end=', ')
+    print(f"Cin = {Cin}, OpCode = {'0b\'' + str(bin(F))[2:].zfill(5)}", end=' | ')
     print(f"Status = {'0b\'' + str(bin(Status))[2:].zfill(6)}, Expected = {'0b\'' + str(bin(exp_Status))[2:].zfill(6)}", end=' | ')
     print(f"Result = {'0x' + str(hex(Result))[2:].zfill(4).upper()}, Expected = {'0x' + str(hex(exp_Result))[2:].zfill(4).upper()}")
   else:
     print(f"[FAIL] | A = {'0x' + str(hex(A))[2:].zfill(4).upper()}, B = {'0x' + str(hex(B))[2:].zfill(4).upper()}", end=', ')
-    print(f"Cin = {Cin}, OpCode = {'0b\'' + str(bin(F))[2:].zfill(5)}", end=', ')
+    print(f"Cin = {Cin}, OpCode = {'0b\'' + str(bin(F))[2:].zfill(5)}", end=' | ')
     print(f"Status = {'0b\'' + str(bin(Status))[2:].zfill(6)}, Expected = {'0b\'' + str(bin(exp_Status))[2:].zfill(6)}", end=' | ')
     print(f"Result = {'0x' + str(hex(Result))[2:].zfill(4).upper()}, Expected = {'0x' + str(hex(exp_Result))[2:].zfill(4).upper()}")
     
@@ -65,4 +65,4 @@ print(f"{str(30 * '=').center(140)}")
 print(f"{' ' * 55}All Test Cases  -> {All}")
 print(f"{' ' * 55}PASSed          -> {PASSed}")
 print(f"{' ' * 55}FAILed          -> {All - PASSed}")
-print(f"{' ' * 55}Successful      -> {(PASSed/All) * 100}%\n")
+print(f"{' ' * 55}Successful      -> {(PASSed/(All if All != 0 else 1)) * 100}%\n")
