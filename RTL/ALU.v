@@ -13,12 +13,8 @@ module alu
 );
   // Internal Signals
     reg [4:0] res;
-    reg CF;                       // Cary Flag
-    wire ZF;                      // Zero Flag
-    wire NF;                      // Negative Flag
-    reg VF;                       // Overflow Flag
-    wire PF;                      // Parity Flag
-    reg AF;                       // Auxiliary Flag
+    reg CF, VF, AF;               // Carry Flag, Overflow Flag, Auxilary Flag
+    wire ZF, NF, PF;              // Zero Flag, Negative Flag, Parity Flag
 
   // FLAGS Register Assignment
     assign Status = {CF, ZF, NF, VF, PF, AF};
@@ -26,7 +22,7 @@ module alu
     assign NF = Result[15];
     assign PF = ~^Result;
 
-  // Comb. Block for Result, CF_ar, VF, AF
+  // Comb. Block for Result, CF, VF, AF
     always@(*) begin 
       // Initial Values for Result, CF, VF, AF
         Result = 16'h0000;
@@ -41,8 +37,7 @@ module alu
             AF = A[3:0] == 4'hF;                                  // AF
           end
           5'b00_011: begin  // DEC
-            Result = A - 1;                                       // Result
-            CF = A == 16'h0000;                                   // CF
+            {CF, Result} = A - 1;                                 // CF, Result
             VF = A[15] && !Result[15];                            // VF
             AF = A[3:0] == 4'h0;                                  // AF
           end
@@ -59,14 +54,12 @@ module alu
             AF = res > 4'hF;                                      // AF
           end
           5'b00_110: begin  // SUB
-            Result = A - B;                                       // Result
-            CF = A < B;                                           // CF
+            {CF, Result} = A - B;                                 // CF, Result
             VF = (A[15] != B[15] && Result[15] != A[15]);         // VF
             AF = A[3:0] < B[3:0];                                 // AF
           end
           5'b00_111: begin  // SUB_BORROW
-            Result = A - B - Cin;                                 // Result
-            CF = A - Cin < B;                                     // CF
+            {CF, Result} = A - B - Cin;                           // CF, Result
             VF = (A[15] != B[15] && Result[15] != A[15]);         // VF
             res = B[3:0] + Cin;
             AF = A[3:0] < res;                                    // AF
@@ -76,7 +69,6 @@ module alu
           5'b01_001: Result = A | B;                              // OR
           5'b01_010: Result = A ^ B;                              // XOR
           5'b01_011: Result = ~A;                                 // NOT
-
         // Shift Block
           5'b10_000: {CF, Result} = {A[15], A << 1};              // SHL
           5'b10_001: {CF, Result} = {A[0], A >> 1};               // SHR
@@ -86,12 +78,6 @@ module alu
           5'b10_101: {CF, Result} = {A[0], {A[0], A[15:1]}};      // ROR
           5'b10_110: {CF, Result} = {A[15], {A[14:0], Cin}};      // RCL
           5'b10_111: {CF, Result} = {A[0], {Cin, A[15:1]}};       // RCR
-        // Default
-          default: begin 
-            Result = 16'h0000;
-            CF = 1'b0;
-            VF = 1'b0;
-          end
       endcase
     end
 endmodule
